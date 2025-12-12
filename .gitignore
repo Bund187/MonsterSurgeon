@@ -1,0 +1,56 @@
+# ===== UNITY PROJECT =====
+
+# Archivos y carpetas generados automáticamente
+Library/
+Temp/
+Obj/
+Logs/
+UserSettings/
+MemoryCaptures/
+
+# Visual Studio / Rider / VSCode
+.vs/
+*.csproj
+*.sln
+*.user
+*.unityproj
+*.pidb
+*.booproj
+*.svd
+
+# Cache de paquetes y compilación
+Artifacts/
+ProjectSettings/EditorBuildSettings.asset.meta
+
+# Cache de paquetes de Unity
+Packages/packages-lock.json
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Builds
+Build/
+Builds/
+*/Build/
+*/Builds/
+
+# Cache de Addressables
+ServerData/
+UnityCache/
+
+# TextMeshPro basura generada
+TextMesh Pro/Resources/*.asset.meta
+
+# Cache de Shader
+*.ShaderCache
+
+# Localización (si se usa Unity Localization Package)
+Localization/*/StringTableCollection/*.asset.meta
+Localization/*/AssetTableCollection/*.asset.meta
+
+# ===== EXCEPCIONES IMPORTANTES =====
+# Estos sí deben versionarse
+!Assets/
+!ProjectSettings/
+!Packages/

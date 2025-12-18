@@ -32,6 +32,7 @@ public class PlayerInputReader : MonoBehaviour
     // Botones: no te suscribes, los consultas cuando quieras
     //public bool JumpPressedThisFrame() => input.Player.Jump.WasPressedThisFrame();
     public bool InteractPressedThisFrame() => input.Player.Interact.WasPressedThisFrame();
+    public bool InventoryPressedThisFrame() => input.Player.Inventory.WasPressedThisFrame();
     //public bool AttackPressedThisFrame() => input.Player.Attack.WasPressedThisFrame();
 
     //public bool SprintHeld() => input.Player.Sprint.IsPressed();

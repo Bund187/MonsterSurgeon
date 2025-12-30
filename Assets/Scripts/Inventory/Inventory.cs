@@ -33,18 +33,28 @@ public class Inventory : MonoBehaviour
 
     public void Select(ItemType type, int index)
     {
-        if (type == ItemType.Usable) selectedUsableIndex = index;
+        if (type == ItemType.Usable)
+        {
+            selectedUsableIndex = index;
+            EquipSelectedUsable();
+        }
         else selectedPassiveIndex = index;
-        OnChanged?.Invoke();
     }
 
     public void Add(Item item)
     {
         if (item == null) return;
 
-        if (item.type == ItemType.Usable) 
+        if (item.type == ItemType.Usable)
+        {
             usables.Add(item);
-        else passives.Add(item);
+            Debug.Log("Añadido usable "+ item.name);
+        }
+        else
+        {
+            passives.Add(item);
+            Debug.Log("Añadido pasivo " + item.name);
+        }
 
         // si es pasivo, se registra al momento
         //if (item is PassiveItem p) p.Register(player);
@@ -63,9 +73,24 @@ public class Inventory : MonoBehaviour
         OnChanged?.Invoke();
     }
 
-    //public void EquipSelectedUsable()
-    //{
-    //    var sel = GetSelected(ItemType.Usable) as UsableItem;
-    //    player.Equipment.Equip(sel);
-    //}
+    public string GetItemDescription(int index, ItemType type)
+    {
+        string description;
+        List<Item> list = type == ItemType.Usable ? usables : passives;
+
+        return description = list[index].itemDescription;
+    }
+
+    public string GetItemName(int index, ItemType type)
+    {
+        string name;
+        List<Item> list = type == ItemType.Usable ? usables : passives;
+        return name = list[index].itemName;
+    }
+
+    public void EquipSelectedUsable()
+    {
+        UsableItem sel = GetSelected(ItemType.Usable) as UsableItem;
+        playerManager.Equipment.EquipItem(sel);
+    }
 }

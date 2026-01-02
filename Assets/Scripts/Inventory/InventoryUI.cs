@@ -35,7 +35,6 @@ public class InventoryUI : MonoBehaviour
             {
                 usableItemSlots[i].enabled = true;
                 usableItemSlots[i].sprite = inventory.Usables[i].icon;
-                //SelectSlot(i);
             }
             else
                 usableItemSlots[i].enabled = false;
@@ -47,7 +46,6 @@ public class InventoryUI : MonoBehaviour
             {
                 pasiveItemSlots[i].enabled = true;
                 pasiveItemSlots[i].sprite = inventory.Passives[i].icon;
-                //SelectSlot(i);
             }
             else
                 pasiveItemSlots[i].enabled = false;

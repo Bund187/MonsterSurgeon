@@ -6,4 +6,9 @@ public class DartShooter : MonoBehaviour
     {
         print("Se dispara la pistola de dardos");
     }
+
+    public void Aim()
+    {
+        print("Apuntando...");
+    }
 }

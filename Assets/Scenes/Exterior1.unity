@@ -2997,9 +2997,11 @@ GameObject:
   - component: {fileID: 912978281}
   - component: {fileID: 912978283}
   - component: {fileID: 912978280}
+  - component: {fileID: 912978287}
   - component: {fileID: 912978284}
   - component: {fileID: 912978285}
   - component: {fileID: 912978286}
+  - component: {fileID: 912978288}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3238,6 +3240,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02e0f2a7f2c54f942a30b96c88cd82b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
+--- !u!114 &912978287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912978276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0d10eef08c5644aa31d250c6ccae42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputController
+--- !u!114 &912978288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912978276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04c026f41f7df664dab40932c2d201f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DartShooter
 --- !u!1 &990665920
 GameObject:
   m_ObjectHideFlags: 0

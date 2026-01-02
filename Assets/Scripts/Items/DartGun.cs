@@ -8,10 +8,11 @@ public class DartGun : UsableItem
         //Se activa la animación del player de disparar
         //player.ChangeAnimation("shoot");
         Debug.Log("Se equipa pistola de dardos");
+        player.InputController.EnableDartGun();
     }
 
     public override void Use(PlayerManager player)
     {
-        player.GetComponent<DartShooter>().Shoot();
+        //player.GetComponent<DartShooter>().Shoot();
     }
 }

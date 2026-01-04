@@ -26,13 +26,15 @@ public class PlayerInputController : MonoBehaviour
         DisableAllItemMaps();
         inputActions.DartGun.Enable();
 
-        inputActions.DartGun.Aim.performed += OnAim;
+        inputActions.DartGun.Aim.started += OnAim;
+        inputActions.DartGun.Aim.canceled += OnReleaseAim;
         inputActions.DartGun.Shoot.performed += OnShoot;
         print("enable dartgun");
     }
     public void DisableDartGun()
     {
-        inputActions.DartGun.Aim.performed -= OnAim;
+        inputActions.DartGun.Aim.performed -= OnAim; 
+        inputActions.DartGun.Aim.performed -= OnReleaseAim;
         inputActions.DartGun.Shoot.performed -= OnShoot;
         inputActions.DartGun.Disable();
     }
@@ -61,6 +63,10 @@ public class PlayerInputController : MonoBehaviour
     void OnAim(InputAction.CallbackContext ctx)
     {
         GetComponent<DartShooter>()?.Aim();
+    }
+    void OnReleaseAim(InputAction.CallbackContext ctx)
+    {
+        GetComponent<DartShooter>()?.ReleaseAim();
     }
 
     void OnShoot(InputAction.CallbackContext ctx)

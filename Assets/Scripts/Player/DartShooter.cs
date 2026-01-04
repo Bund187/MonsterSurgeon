@@ -2,13 +2,28 @@ using UnityEngine;
 
 public class DartShooter : MonoBehaviour
 {
-    public void Shoot()
+    [SerializeField] GameObject scopeCanvas;
+
+    private bool isAiming;
+    public void Shoot()    
     {
-        print("Se dispara la pistola de dardos");
+        if (isAiming)
+        {
+            //Suena el disparo
+            //Pequeño shake del aim
+            //Disparo
+            print("Se dispara la pistola de dardos");
+        }
     }
 
     public void Aim()
     {
-        print("Apuntando...");
+        isAiming = true;
+        scopeCanvas.SetActive(isAiming);
+    }
+    public void ReleaseAim()
+    {
+        isAiming = false;
+        scopeCanvas.SetActive(isAiming);
     }
 }

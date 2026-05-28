@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class ScopeController : MonoBehaviour
@@ -12,13 +12,16 @@ public class ScopeController : MonoBehaviour
 
     [Header("Stick")]
     [SerializeField] float stickSpeed = 800f;
+    [SerializeField] float stickDeadzone = 0.15f;
 
     [Header("Clamp")]
     [SerializeField] Vector2 padding = new Vector2(20, 20);
 
     private PlayerInputActions actions;
-
     private Vector2 scopeScreenPos;
+
+    private enum AimMode { Pointer, Stick }
+    private AimMode mode = AimMode.Pointer;
 
     private void Awake()
     {
@@ -29,8 +32,17 @@ public class ScopeController : MonoBehaviour
     {
         actions.Enable();
 
-        // Inicializa la mirilla en el centro
-        scopeScreenPos = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        // Arranca donde esté el ratón (o el puntero)
+        Vector2 startPos = actions.Player.Pointer.ReadValue<Vector2>();
+
+        // Si por alguna razón viene (0,0) (raro, pero puede pasar al iniciar),
+        // lo dejamos en el centro como fallback.
+        if (startPos == Vector2.zero)
+            startPos = new Vector2(Screen.width / 2f, Screen.height / 2f);
+
+        scopeScreenPos = startPos;
+        scopeUI.position = scopeScreenPos;
+        MoveScopeCamera(scopeScreenPos);
     }
 
     private void OnDisable()
@@ -43,31 +55,45 @@ public class ScopeController : MonoBehaviour
         Vector2 pointerPos = actions.Player.Pointer.ReadValue<Vector2>();
         Vector2 look = actions.Player.Look.ReadValue<Vector2>();
 
-        bool usingMouse = Mouse.current != null && Mouse.current.delta.ReadValue() != Vector2.zero;
-        bool usingStick = look.sqrMagnitude > 0.001f;
+        bool stickActive = look.sqrMagnitude > (stickDeadzone * stickDeadzone);
 
-        // 1) Decide qui�n manda
-        if (usingMouse)
+        // Si el stick se usa, cambiamos a modo stick
+        if (stickActive)
+            mode = AimMode.Stick;
+
+        // Si no hay stick activo, por defecto usamos puntero SIEMPRE
+        if (!stickActive)
+            mode = AimMode.Pointer;
+
+        if (mode == AimMode.Pointer)
         {
             scopeScreenPos = pointerPos;
         }
-        else if (usingStick)
+        else // Stick
         {
             scopeScreenPos += look * stickSpeed * Time.deltaTime;
         }
 
-        // 2) Clamp a pantalla
+        // Clamp
         scopeScreenPos.x = Mathf.Clamp(scopeScreenPos.x, padding.x, Screen.width - padding.x);
         scopeScreenPos.y = Mathf.Clamp(scopeScreenPos.y, padding.y, Screen.height - padding.y);
 
-        // 3) Mueve la UI
+        // Apply
         scopeUI.position = scopeScreenPos;
+        MoveScopeCamera(scopeScreenPos);
+    }
 
-        // 4) Mueve la c�mara de la lupa
-        Vector3 world = mainCamera.ScreenToWorldPoint(
-            new Vector3(scopeScreenPos.x, scopeScreenPos.y, 0f)
-        );
+    private void MoveScopeCamera(Vector2 screenPos)
+    {
+        Vector3 world = mainCamera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0f));
         world.z = scopeCamera.transform.position.z;
         scopeCamera.transform.position = world;
+    }
+    public Vector2 GetAimWorldPoint2D()
+    {
+        // scopeUI.position está en coordenadas pantalla (pixeles)
+        Vector3 screen = scopeUI.position;
+        Vector3 world = mainCamera.ScreenToWorldPoint(new Vector3(screen.x, screen.y, 0f));
+        return new Vector2(world.x, world.y);
     }
 }

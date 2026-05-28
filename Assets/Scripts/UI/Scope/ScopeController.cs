@@ -89,4 +89,11 @@ public class ScopeController : MonoBehaviour
         world.z = scopeCamera.transform.position.z;
         scopeCamera.transform.position = world;
     }
+    public Vector2 GetAimWorldPoint2D()
+    {
+        // scopeUI.position está en coordenadas pantalla (pixeles)
+        Vector3 screen = scopeUI.position;
+        Vector3 world = mainCamera.ScreenToWorldPoint(new Vector3(screen.x, screen.y, 0f));
+        return new Vector2(world.x, world.y);
+    }
 }

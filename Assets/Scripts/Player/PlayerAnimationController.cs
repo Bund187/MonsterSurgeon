@@ -25,7 +25,6 @@ public class PlayerAnimationController : MonoBehaviour
         bool moving = movement.sqrMagnitude > 0.01f;
        
         animator.SetBool(IsMoving, moving);
-
         if (moving)
         {
             // Normalizar evita que las diagonales sean más rápidas visualmente

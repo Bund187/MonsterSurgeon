@@ -8,7 +8,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject inventoryCanvas;
 
     public enum FacingDirection { Up, Down, Left, Right }
-    public GameObject[] attackAnimations;
+    public GameObject attackAnimation;
+    public Transform[] attackPositions;
 
     private PlayerInputReader input;
     private Rigidbody2D rigidBody;
@@ -86,32 +87,26 @@ public class PlayerController : MonoBehaviour
         switch (GetDirection(animationController.FacingDirection))
         {
             case FacingDirection.Right:
-                attackAnimations[0].SetActive(true);
-                DeactivateAnimations(0);
+                ShowAttackAnimation(0, false);
                 break;
             case FacingDirection.Down:
-                attackAnimations[1].SetActive(true);
-                DeactivateAnimations(1);
+                ShowAttackAnimation(1, true);
                 break;
             case FacingDirection.Left:
-                attackAnimations[2].SetActive(true);
-                DeactivateAnimations(2);
+                ShowAttackAnimation(2, true);
                 break;
             case FacingDirection.Up:
-                attackAnimations[3].SetActive(true);
-                DeactivateAnimations(3);
+                ShowAttackAnimation(3, false);
                 break;
         }
     }
 
-    public void DeactivateAnimations(int noDeactivate)
+    public void ShowAttackAnimation(int attackIndex, bool flip)
     {
-        for(int i=0; i< attackAnimations.Length; i++)
-        {
-            if (i != noDeactivate)
-            {
-                attackAnimations[i].SetActive(false);
-            }
-        }
+        attackAnimation.transform.position = attackPositions[attackIndex].transform.position;
+        attackAnimation.transform.rotation = attackPositions[attackIndex].transform.rotation;
+        attackAnimation.GetComponent<SpriteRenderer>().flipX = flip;
+        attackAnimation.SetActive(true);
     }
+
 }

@@ -194,6 +194,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Attack-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 0
+        width: 23
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b00b82e9ea5402b44844abb429326bf2
+      internalID: -1727596793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Attack-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 0
+        width: 23
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01cb339bc7e47364c8247fd28c429278
+      internalID: -524548936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -213,6 +257,8 @@ TextureImporter:
       Attack-Sheet_0: -7980351618680381734
       Attack-Sheet_1: 6951178911378622742
       Attack-Sheet_2: -640536164
+      Attack-Sheet_3: -1727596793
+      Attack-Sheet_4: -524548936
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

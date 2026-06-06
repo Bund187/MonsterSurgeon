@@ -34,6 +34,7 @@ public class PlayerInputReader : MonoBehaviour
     public bool InteractPressedThisFrame() => input.Player.Interact.WasPressedThisFrame();
     public bool InventoryPressedThisFrame() => input.Player.Inventory.WasPressedThisFrame();
     public bool AttackPressedThisFrame() => input.Player.Attack.WasPressedThisFrame();
+    public bool SpellPressedThisFrame() => input.Player.Spell.WasPressedThisFrame();
 
     //public bool SprintHeld() => input.Player.Sprint.IsPressed();
     //public bool CrouchHeld() => input.Player.Crouch.IsPressed();

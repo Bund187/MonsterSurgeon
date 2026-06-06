@@ -7,10 +7,11 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private string type;
 
     private Collider2D hitCollider;
-
+    private PlayerController playerController;
     private void Start()
     {
         hitCollider = GetComponent<Collider2D>();
+        playerController = GetComponentInParent<PlayerController>();
     }
 
     public void EnableHitbox() => hitCollider.enabled = true;
@@ -18,6 +19,7 @@ public class WeaponController : MonoBehaviour
     {
         hitCollider.enabled = false;
         this.gameObject.SetActive(false);
+        playerController.MovementIsBlocked = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

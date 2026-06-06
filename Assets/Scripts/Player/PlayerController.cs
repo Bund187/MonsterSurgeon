@@ -1,15 +1,18 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    //[SerializeField] AK.Wwise.Event wwiseWalkSound;
+    private static readonly float AttackCooldown = 0.2f;
+
     [SerializeField] float speedMovement;
     [SerializeField] GameObject inventoryCanvas;
-
-    public enum FacingDirection { Up, Down, Left, Right }
-    public GameObject attackAnimation;
+    [SerializeField] SpellBase spellBase;
+    public enum FacingDirection { Right = 0, Down = 1, Left = 2, Up = 3 }
+    public GameObject[] attackAnimation;
     public Transform[] attackPositions;
+    public Transform spellAim;
 
     private PlayerInputReader input;
     private Rigidbody2D rigidBody;
@@ -18,7 +21,9 @@ public class PlayerController : MonoBehaviour
     private bool inventoryActive;
     private bool movementIsBlocked;
     private PlayerAnimationController animationController;
-    
+    private float lastAttackTime;
+    public bool MovementIsBlocked { get => movementIsBlocked; set => movementIsBlocked = value; }
+
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -37,6 +42,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleInventoryInput();
         HandleAttackInput();
+        HandleSpellInput();
     }
     FacingDirection GetDirection(Vector2 dir)
     {
@@ -46,7 +52,7 @@ public class PlayerController : MonoBehaviour
         else
             return dir.y > 0 ? FacingDirection.Up : FacingDirection.Down;
     }
-
+  
     void Move()
     {
         rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -79,34 +85,40 @@ public class PlayerController : MonoBehaviour
     public void HandleAttackInput()
     {
         if (input.AttackPressedThisFrame())
-            Attack();
+            Attack();        
     }
 
     public void Attack()
     {
-        switch (GetDirection(animationController.FacingDirection))
+        //Cooldown
+        if (Time.time < lastAttackTime + AttackCooldown) return;
+
+        movementIsBlocked = true;
+        int index = (int)GetDirection(animationController.FacingDirection);
+
+        SetActiveAttackAnimation(index);
+        animationController.TriggerAttackAnimation();
+        lastAttackTime = Time.time;
+    }
+
+    private void SetActiveAttackAnimation(int activeIndex)
+    {
+        for (int i = 0; i < attackAnimation.Length; i++)
         {
-            case FacingDirection.Right:
-                ShowAttackAnimation(0, false);
-                break;
-            case FacingDirection.Down:
-                ShowAttackAnimation(1, true);
-                break;
-            case FacingDirection.Left:
-                ShowAttackAnimation(2, true);
-                break;
-            case FacingDirection.Up:
-                ShowAttackAnimation(3, false);
-                break;
+            attackAnimation[i].SetActive(i == activeIndex);
         }
     }
 
-    public void ShowAttackAnimation(int attackIndex, bool flip)
+    //Spell Attack
+    public void HandleSpellInput()
     {
-        attackAnimation.transform.position = attackPositions[attackIndex].transform.position;
-        attackAnimation.transform.rotation = attackPositions[attackIndex].transform.rotation;
-        attackAnimation.GetComponent<SpriteRenderer>().flipX = flip;
-        attackAnimation.SetActive(true);
+        if (input.SpellPressedThisFrame())
+            ThrowSpell();
     }
 
+    public void ThrowSpell()
+    {
+        spellBase.CastSpell(spellAim);
+        animationController.TriggerSpellAnimation();
+    }
 }
